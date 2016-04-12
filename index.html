@@ -6,8 +6,8 @@
 
 		<title>reveal.js – The HTML Presentation Framework</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+		<meta name="description" content="Functional JavaScript with Ramda">
+		<meta name="author" content="Abraham Walters">
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -41,338 +41,325 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
+					<h1>Functional Programming in JavaScript</h1>
 					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+						<small>Created by <a href="https://github.com/quidmonkey">Abraham Walters</a> / <a href="http://twitter.com/quidmonkey">@quidmonkey</a></small>
 					</p>
 				</section>
 
 				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
+					<h2>What is Functional Programming?</h2>
+					<p class="fragment">
+						A way to program that describes what you want done vs. how you want something done. This way of programming uses functions to describe things.
 					</p>
 				</section>
 
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
+                <section>
+                    <h2>What is Ramda?</h2>
+                    <p class="fragment">
+                        <a href="http://ramdajs.com/">Ramda</a> is a JavaScript library for Functional Programming
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Immutability</h2>
+                    <p>
+                        Immutability means that once a variable is assigned a value, that variable can never be changed, or "mutated."
+                    </p>
+                    <pre><code data-trim contenteditable class="javascript">
+let foo = 1;
+foo = 2;    // => Error!
+
+let bar = {
+    x: 1
+};
+bar.x = 5;  // => Error!
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Immutability</h2>
+                    <p>
+                        Immutability is the keystone of Functional Programming. It is the one-piece that everyone knows, and without it, Functional Programming is impossible.
+                    </p>
+                    <pre><code data-trim contenteditable class="javascript">
+let bar = {
+    x: 1
+};
+
+// the right way
+let foo = mixin(bar, {
+    x: 5
+});
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Purity</h2>
+                    <p>
+                        "A pure function is a function that, given the same input, will always return the same output and does not have any observable side effect."
+                    </p>
+                    <p>
+                        - Professor Frisby
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Purity</h2>
+                    <p>
+                        Pure functions are deterministic and are referentially transparent - meaning, that any evaluated expression can be replaced with its result and the meaning of the program will never change. This has powerful implications.
+                    </p>
+                    <pre><code data-trim contenteditable class="javascript">
+const addSomething = (x, y) => x + y;
+
+addSomething(1, 2);     // => 3
+
+// once more, with feeling!
+addSomething(1, 2);     // => 3
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Impurity</h2>
+                    <pre><code data-trim contenteditable class="javascript">
+let i = 1;
+
+const addSomethingImpure = (x, y) => {
+    i = i + 1;
+    return i + x + y;
+};
+
+addSomethingImpure(1, 2);     // => 5
+
+// ruh roh...
+addSomethingImpure(1, 2);     // => 6
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>The Devil In the Details</h2>
+                    <pre><code data-trim contenteditable class="javascript">
+// so impure it hurts...
+const doSomething = (data) => {
+    // common anti-pattern found in imperative code bases
+    if (hasSomeCondition(data)) { return; }
+
+    let transformedData = // code
+
+    return transformedData;
+};
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>What is State?</h2>
+                    <p class="fragment">
+                        State is anything the program needs to know about itself in order to run.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Oh God, Not the Devil Again</h2>
+                    <p>
+                        "Most bugs are a result of the execution state not being exactly what you think it is."
+                    </p>
+                    <p>
+                        - John Carmack
+                    </p>
+                </section>
+
+                <section>
+                    <h2>What are Side Effects?</h2>
+                    <p>
+                        A side effect is any change to either the passed-in data or any other program data that is not directly used to compute the result of an expression or function.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Side Effects - Example #1</h2>
+                    <pre><code data-trim contenteditable class="javascript">
+// defaults are anti-patterns!
+const mutateSomething = (data) => {
+    data = data || {};
+};
+
+// ES6 does not give you a free pass!
+const mutateSomethingElse = (data = {}) => {};
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Side Effects - Example #2</h2>
+                    <pre><code data-trim contenteditable class="javascript">
+// :'‑(
+const mutateSomething = (data) => {
+    data.firstName = `${data.firstName}'s`;
+};
+                    </code></pre>
+                </section>
+
+
+                <section>
+                    <h2>Side Effects - Example #3</h2>
+                    <pre><code data-trim contenteditable class="javascript">
+// IO is impure!
+// you might not be changing state within the program
+// but you're changing state in another program
+// and accepting new state from that other program!
+const mutateSomething = (url, data) => {
+    const res = yield makeRequest(url, data);
+    return res;
+};
+
+const mutateSomethingElse = (filePath, data) => {
+    const json = JSON.Stringify(data);
+    return writeFile(filePath, json);
+};
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Partial Application</h2>
+                    <p>
+                        Wouldn't it be cool if I didn't have to pass the same two parameters in the function call every time?
+                    </p>
+                    <pre><code data-trim contenteditable class="fragment javascript">
+const addAllTheThings = (...numbers) => numbers.reduce(
+    (total, number) => total + number,
+    0
+);
+
+// this gets old fast...
+addAllTheThings(1, 2, 3);      // => 6
+addAllTheThings(1, 2, 4);      // => 7
+addAllTheThings(1, 2, 5);      // => 8
+
+const addOneAndTwo = partial(addAllTheThings, [1, 2]);
+
+// huzzah!
+addOneAndTwo(3);            // => 6
+addOneAndTwo(4);            // => 7
+addOneAndTwo(5);            // => 8
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Currying (Arity)</h2>
+                    <p>
+                        Wouldn't it be great if my function was smart enough to call itself after every parameter was provided to fulfill its functional signature?
+                    </p>
+                    <pre><code data-trim contenteditable class="fragment javascript">
+const saySomething = (first, second) => `${first} ${second}!`;
+
+const sayer = curry(saySomething);
+
+const sayHello = sayer('O Hai');
+
+sayHello('JB');         // => O Hai JB!
+sayHello('Neil');       // => O Hai Neil!
+sayHello('Ben');        // => O Hai Ben!
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Partial Application vs. Currying</h2>
+                    <p>
+                        A partially applied function will always execute with whatever parameters you provide it (or no parameters!) when next you call the function. A curried function will only fire once its functional arity is complete.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>I Know the Pieces Fit</h2>
+                    <p>
+                        All well-written functions do one-thing (<a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility Principle</a>). But most of the time you want to take a data set and transform it into a different set of data. Unfortunately, the transformation is rarely a single-step i.e. customers into IDs into accounts into account balances. Wouldn't it be great if we could combine functions into a single transformation?
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Composition</h2>
+                    <p>
+                    <pre><code data-trim contenteditable class="javascript">
+const addSomething = (x, y) => x + y;
+const add7 = curry(addSomething)(7);
+
+const add7AndLog = compose(console.log.bind(console), add7);
+add7AndLog(13);     // logs '20'
+                    </code></pre>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Real World Example</h2>
+                    <p>
+                        <small><a href="js/marvel.js">Use Functional Programming to Query Marvel API</a></small>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Why Functional?</h2>
+                    <p>
+                        "Abstraction is not about vagueness, it is about being precise at a new semantic level."
+                    </p>
+                    <p>
+                        - Dijkstra
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Why Functional?</h2>
+                    <ul>
+                        <li class="fragment">No Runtime Errors</li>
+                        <li class="fragment">Time Travel</li>
+                        <li class="fragment">Fewer Bugs</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Why Functional?</h2>
+                    <p>
+                        Unit-Testing is nothing more than simple asserts all the way through.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Why Functional?</h2>
+                    <p>
+                        With the enforcement of the Single Responsibility Principle, code becomes more reusable.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Why Functional?</h2>
+                    <p>
+                        Functional compilation allows for the concept of referential transparency, whereby any expression can be replaced by its evaluated result and still hold true. Add in that no state is shared during evaluation of an expression, and thus, execution order is meaningless. Thus, it makes parallel programming simple.
+                    </p>
+                    <pre><code data-trim contenteditable class="javascript">
+// both f(x) and g(x) can be evaluated
+// simultaneously in functional compilation
+f(x) + g(x)
+
+// in imperative compilation they must
+// be evaluated one after the other
+// due to shared, mutating state
+const n = 1;
+const f = (x) => ++n * x;
+const g = (x) => n + Math.sqrt(x);
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Next Steps</h2>
+                    <ul>
+                        <li class="fragment">Hindley-Milner Notation</li>
+                        <li class="fragment">Type Interfaces/Algebraic Data Types (ADT)</li>
+                        <li class="fragment">Make Paul Happy, Go to a <a href="http://www.meetup.com/Clojadelphia/">Clojure Meetup</a>!</li>
+                        <li class="fragment">Haskell, Scale, Elm</li>
+                        <li class="fragment"><a href="https://github.com/MostlyAdequate/mostly-adequate-guide">Professor Frisby's Most Adequate Guide to Functional Programming</a></li>
+                    </ul>
+                </section>
 
 				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
-
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
-
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-
-						```
-						<section data-markdown>
-						  ## Markdown support
-
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
-
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
-
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
-
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
-
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
-
-				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code class="hljs">&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-						<h2>... and GIFs!</h2>
-					</section>
-				</section>
-
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code class="hljs">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-				</section>
-
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code class="hljs" data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
-
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
-
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							</tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							</tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							</tr>
-						</tbody>
-					</table>
-				</section>
-
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
-
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
-
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
-
-				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
-				</section>
-
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
-
-				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
-				</section>
-
-				<section style="text-align: left;">
 					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
 				</section>
 
 			</div>

@@ -142,11 +142,23 @@ addSomethingImpure(1, 2);     // => 6
 // so impure it hurts...
 const doSomething = (data) => {
     // common anti-pattern found in imperative code bases
-    if (hasSomeCondition(data)) { return; }
+    if (!data) { return; }
 
-    let transformedData = // code
-
+    // code
     return transformedData;
+};
+
+// another common symptom
+const doSomethingRedux = (data) => {
+    const otherData = getOtherData(data);
+
+    if (!otherData) {
+        // code
+        return otherDataState1;
+    } else {
+        // code
+        return otherDataState2
+    }
 };
                     </code></pre>
                 </section>
@@ -353,7 +365,7 @@ const g = (x) => n + Math.sqrt(x);
                         <li class="fragment">Hindley-Milner Notation</li>
                         <li class="fragment">Type Interfaces/Algebraic Data Types (ADT)</li>
                         <li class="fragment">Make Paul Happy, Go to a <a href="http://www.meetup.com/Clojadelphia/">Clojure Meetup</a>!</li>
-                        <li class="fragment">Haskell, Scale, Elm</li>
+                        <li class="fragment">Haskell, Scala, Elm</li>
                         <li class="fragment"><a href="https://github.com/MostlyAdequate/mostly-adequate-guide">Professor Frisby's Most Adequate Guide to Functional Programming</a></li>
                     </ul>
                 </section>

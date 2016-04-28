@@ -1,6 +1,4 @@
-const defReq = require('rest/interceptor/defaultRequest');
 const md5 = require('md5');
-const mine = require('rest/interceptor/mime');
 const R = require('ramda');
 const rest = require('rest');
 
@@ -21,8 +19,7 @@ const logger = (data) => {
 // make an request
 const makeReq = (type, params) => {
     const restParams = R.omit(['path'], params);
-    const client = rest.wrap(defReq, { method: type, params: restParams });
-    return client({ path: params.path });
+    return rest({ method: type, params: restParams, path: params.path });
 }
 
 // make a get request
@@ -45,6 +42,7 @@ const getMarvelParams = R.partial(R.merge, [defaultMarvelParams]);
 const getMarvelLogger = R.compose(
     logger,
     R.curry(JSON.stringify)(R.__, null, 4),
+    R.head,
     R.prop('results'),
     R.prop('data'),
     JSON.parse,

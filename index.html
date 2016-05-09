@@ -67,6 +67,7 @@
                         Immutability means that once a variable is assigned a value, that variable can never be changed, or "mutated."
                     </p>
                     <pre><code data-trim contenteditable class="javascript">
+// if javascript were immutable...
 let foo = 1;
 foo = 2;    // => Error!
 
@@ -83,6 +84,7 @@ bar.x = 5;  // => Error!
                         Immutability is the keystone of Functional Programming. It is the one-piece that everyone knows, and without it, Functional Programming is impossible.
                     </p>
                     <pre><code data-trim contenteditable class="javascript">
+// if javascript were immutable...
 let bar = {
     x: 1
 };
@@ -343,15 +345,20 @@ add7AndLog(13);     // logs '20'
                 <section>
                     <h2>Why Functional?</h2>
                     <p>
-                        Functional compilation allows for the concept of referential transparency, whereby any expression can be replaced by its evaluated result and still hold true. Add in that no state is shared during evaluation of an expression, and thus, execution order is meaningless. Thus, it makes parallel programming simple.
+                        Functional compilation allows for the concept of referential transparency, whereby any expression can be replaced by its evaluated result and still hold true. Add in that no state is shared during evaluation of an expression, and thus, execution order is meaningless, making parallel programming simple.
                     </p>
                     <pre><code data-trim contenteditable class="javascript">
-// both f(x) and g(x) can be evaluated
-// simultaneously in functional compilation
+// sample expression adding the result of two functions
 f(x) + g(x)
 
-// in imperative compilation they must
-// be evaluated one after the other
+// if javascript were truly functional...
+// both f(x) and g(x) could be evaluated
+// simultaneously during functional compilation
+const f = (x) => a + x;
+const g = (x) => b + x;
+
+// in imperative compilation f(x) and g(x)
+// must be evaluated one after the other
 // due to shared, mutating state
 const n = 1;
 const f = (x) => ++n * x;
@@ -366,7 +373,7 @@ const g = (x) => n + Math.sqrt(x);
                         <li class="fragment">Type Interfaces/Algebraic Data Types (ADT)</li>
                         <li class="fragment">Make Paul Happy, Go to a <a href="http://www.meetup.com/Clojadelphia/">Clojure Meetup</a>!</li>
                         <li class="fragment">Haskell, Scala, Elm</li>
-                        <li class="fragment"><a href="https://github.com/MostlyAdequate/mostly-adequate-guide">Professor Frisby's Most Adequate Guide to Functional Programming</a></li>
+                        <li class="fragment"><a href="https://github.com/MostlyAdequate/mostly-adequate-guide">Professor Frisby's Mostly Adequate Guide to Functional Programming</a></li>
                     </ul>
                 </section>
 

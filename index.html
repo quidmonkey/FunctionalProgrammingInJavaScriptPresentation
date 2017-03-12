@@ -334,6 +334,26 @@ add7AndLog(13);     // logs '20'
                 </section>
 
                 <section>
+                    <h2>Composition Redux</h2>
+                    <pre><code data-trim contenteditable class="javascript">
+const sum = (numbers) => numbers.reduce((total, number) => total + number, 0);
+
+const double = (numbers) => numbers.map((number) => number * 2);
+
+const odds = (numbers) => numbers.filter((number) => number % 2);
+
+const sumDoubleOdds = compose(
+    console.log.bind(console),
+    sum,
+    double,
+    odds
+);
+
+sumDoubleOdds([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);  // => 60
+                    </code></pre>
+                </section>
+
+                <section>
                     <h2>Real World Example</h2>
                     <p>
                         <small><a href="js/marvel.js">Use Functional Programming to Query Marvel API</a></small>

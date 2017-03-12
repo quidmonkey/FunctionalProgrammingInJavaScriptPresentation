@@ -74,5 +74,5 @@ const getMarvelCharReq = R.compose(getMarvelReq, getMarvelCharParams);
 // takes a params object
 const getMarvelCharByNameReq = (name) => getMarvelCharReq({ name: name });
 
-// who you lookin' at, bub
+// who ya lookin' at, bub
 getMarvelCharByNameReq('Wolverine');

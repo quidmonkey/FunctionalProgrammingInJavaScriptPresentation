@@ -55,6 +55,16 @@
 				</section>
 
                 <section>
+                    <h2>Four Functional Keys</h2>
+                    <ul>
+                        <li class="fragment">Immutability</li>
+                        <li class="fragment">Purity</li>
+                        <li class="fragment">Partial Application (Currying)</li>
+                        <li class="fragment">Composition</li>
+                    </ul>
+                </section>
+
+                <section>
                     <h2>What is Ramda?</h2>
                     <p class="fragment">
                         <a href="http://ramdajs.com/">Ramda</a> is a JavaScript library for Functional Programming
@@ -84,15 +94,19 @@ bar.x = 5;  // => Error!
                         Immutability is the keystone of Functional Programming. It is the one-piece that everyone knows, and without it, Functional Programming is impossible.
                     </p>
                     <pre><code data-trim contenteditable class="javascript">
-// if javascript were immutable...
+// ES6 - always use const!
+const foo = 1;
+foo = 2;    // => Error!
+
 let bar = {
     x: 1
 };
 
-// the right way
-let foo = mixin(bar, {
-    x: 5
-});
+// magic sauce
+Object.freeze(bar);
+
+bar.x = 5;              // ...Nothing Happens...Oh JavaScript
+console.log(bar.x);     // => 5
                     </code></pre>
                 </section>
 
@@ -141,7 +155,6 @@ addSomethingImpure(1, 2);     // => 6
                 <section>
                     <h2>The Devil In the Details</h2>
                     <pre><code data-trim contenteditable class="javascript">
-// so impure it hurts...
 const doSomething = (data) => {
     // common anti-pattern found in imperative code bases
     if (!data) { return; }
@@ -150,7 +163,7 @@ const doSomething = (data) => {
     return transformedData;
 };
 
-// another common symptom
+// so impure it hurts
 const doSomethingRedux = (data) => {
     const otherData = getOtherData(data);
 
@@ -159,7 +172,7 @@ const doSomethingRedux = (data) => {
         return otherDataState1;
     } else {
         // code
-        return otherDataState2
+        return otherDataState2;
     }
 };
                     </code></pre>
@@ -222,7 +235,7 @@ const mutateSomething = (data) => {
 // and accepting new state from that other program!
 const mutateSomething = (url, data) => {
     const res = yield makeRequest(url, data);
-    return res;
+    return res.value;
 };
 
 const mutateSomethingElse = (filePath, data) => {
@@ -235,7 +248,7 @@ const mutateSomethingElse = (filePath, data) => {
                 <section>
                     <h2>Partial Application</h2>
                     <p>
-                        Wouldn't it be cool if I didn't have to pass the same two parameters in the function call every time?
+                        Wouldn't it be cool if I didn't have to pass the same arguments to a function every time?
                     </p>
                     <pre><code data-trim contenteditable class="fragment javascript">
 const addAllTheThings = (...numbers) => numbers.reduce(
@@ -260,7 +273,7 @@ addOneAndTwo(5);            // => 8
                 <section>
                     <h2>Currying (Arity)</h2>
                     <p>
-                        Wouldn't it be great if my function was smart enough to call itself after every parameter was provided to fulfill its functional signature?
+                        Wouldn't it be great if my function was smart enough to call itself after every parameter was provided?
                     </p>
                     <pre><code data-trim contenteditable class="fragment javascript">
 const saySomething = (first, second) => `${first} ${second}!`;
@@ -280,6 +293,24 @@ sayHello('Ben');        // => O Hai Ben!
                     <p>
                         A partially applied function will always execute with whatever parameters you provide it (or no parameters!) when next you call the function. A curried function will only fire once its functional arity is complete.
                     </p>
+
+                    <pre><code data-trim contenteditable class="fragment javascript">
+const saySomething = (first, second) => `${first} ${second}!`;
+
+const partialSayer = partial(saySomething);
+
+partialSayer('Hello World');    // => Hello World undefined
+partialSayer();                 // => undefined undefined
+
+const currySayer = curry(saySomething);
+
+currySayer();                                       // => Returns curried function
+const curryHelloSayer = currySayer('Hello World');  // => Returns curried function
+
+curryHelloSayer('JB');         // => Hello World JB!
+curryHelloSayer('Neil');       // => Hello World Neil!
+curryHelloSayer('Ben');        // => Hello World Ben!
+                    </code></pre>
                 </section>
 
                 <section>
@@ -321,25 +352,25 @@ add7AndLog(13);     // logs '20'
 
                 <section>
                     <h2>Why Functional?</h2>
-                    <ul>
-                        <li class="fragment">No Runtime Errors</li>
-                        <li class="fragment">Time Travel</li>
-                        <li class="fragment">Fewer Bugs</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2>Why Functional?</h2>
                     <p>
                         Unit-Testing is nothing more than simple asserts all the way through.
                     </p>
                 </section>
 
                 <section>
-                    <h2>Why Functional?</h2>
+                    <h2>Why Functional</h2>
                     <p>
-                        With the enforcement of the Single Responsibility Principle, code becomes more reusable.
+                        You eliminate mutation and execution bugs due to the enforcement of immutability and purity.
                     </p>
+                </section>
+
+                <section>
+                    <h2>Why Functional?</h2>
+                    <ul>
+                        <li class="fragment">Generative Testing (Clojure)</li>
+                        <li class="fragment">No Runtime Errors (Elm)</li>
+                        <li class="fragment">Discrete State = Time Travel (React + Redux)</li>
+                    </ul>
                 </section>
 
                 <section>
@@ -348,14 +379,18 @@ add7AndLog(13);     // logs '20'
                         Functional compilation allows for the concept of referential transparency, whereby any expression can be replaced by its evaluated result and still hold true. Add in that no state is shared during evaluation of an expression, and thus, execution order is meaningless, making parallel programming simple.
                     </p>
                     <pre><code data-trim contenteditable class="javascript">
+// both f(x) and g(x) can be evaluated
+// simultaneously during functional compilation
+const f = (x) => x + 5;
+const g = (x) => x * 10;
+
 // sample expression adding the result of two functions
 f(x) + g(x)
+f(1)     // first thread can work on this
+g(177)   // second thread can work on this
 
-// if javascript were truly functional...
-// both f(x) and g(x) could be evaluated
-// simultaneously during functional compilation
-const f = (x) => a + x;
-const g = (x) => b + x;
+// in a parallel world
+f(1) + g(117) = 6 + g(117) = f(1) + 1770 = 6 + 1770
 
 // in imperative compilation f(x) and g(x)
 // must be evaluated one after the other
@@ -369,11 +404,13 @@ const g = (x) => n + Math.sqrt(x);
                 <section>
                     <h2>Next Steps</h2>
                     <ul>
+                        <li class="fragment">Give Ramda or Lodash FP a try</li>
+                        <li class="fragment">Give React + Redux a try</li>
+                        <li class="fragment"><a href="https://github.com/MostlyAdequate/mostly-adequate-guide">Professor Frisby's Mostly Adequate Guide to Functional Programming</a></li>
+                        <li class="fragment">Go to a <a href="http://www.meetup.com/Clojadelphia/">Clojure Meetup</a>!</li>
+                        <li class="fragment">Learn a Functional Language: Clojure, Scala, Haskell, Elm, Elixir</li>
                         <li class="fragment">Hindley-Milner Notation</li>
                         <li class="fragment">Type Interfaces/Algebraic Data Types (ADT)</li>
-                        <li class="fragment">Make Paul Happy, Go to a <a href="http://www.meetup.com/Clojadelphia/">Clojure Meetup</a>!</li>
-                        <li class="fragment">Haskell, Scala, Elm</li>
-                        <li class="fragment"><a href="https://github.com/MostlyAdequate/mostly-adequate-guide">Professor Frisby's Mostly Adequate Guide to Functional Programming</a></li>
                     </ul>
                 </section>
 
